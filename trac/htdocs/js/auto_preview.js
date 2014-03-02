@@ -93,7 +93,12 @@
 
     var values = form.serializeArray();
     return inputs.each(function() {
-      $(this).keydown(trigger).keypress(trigger).change(trigger).blur(trigger);
+      var tagName = $(this).get(0).tagName;
+      if (tagName == 'INPUT' || tagName == 'TEXTAREA') {
+        $(this).bind('input propertychange', trigger).blur(trigger);
+      } else {
+        $(this).keydown(trigger).keypress(trigger).change(trigger).blur(trigger);
+      }
     });
   };
 
@@ -150,7 +155,7 @@
         return true;
       }
 
-      $(this).keydown(trigger).keypress(trigger).blur(trigger);
+      $(this).bind('input propertychange', trigger).blur(trigger);
     });
   };
 })(jQuery);
